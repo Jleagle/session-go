@@ -1,4 +1,4 @@
-package sessions_go
+package session
 
 import (
 	"net/http"
