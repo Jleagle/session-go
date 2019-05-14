@@ -1,4 +1,4 @@
-module github.com/Jleagle/sessions-go
+module github.com/Jleagle/session-go
 
 go 1.12
 
