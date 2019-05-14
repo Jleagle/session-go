@@ -69,7 +69,7 @@ func GetAll(r *http.Request) (ret map[string]string, err error) {
 	return ret, err
 }
 
-func Set(r *http.Request, name string, value interface{}) (err error) {
+func Set(r *http.Request, name string, value string) (err error) {
 
 	session, err := getSession(r)
 	if err != nil {
@@ -81,7 +81,7 @@ func Set(r *http.Request, name string, value interface{}) (err error) {
 	return nil
 }
 
-func SetMany(r *http.Request, values map[string]interface{}) (err error) {
+func SetMany(r *http.Request, values map[string]string) (err error) {
 
 	session, err := getSession(r)
 	if err != nil {
@@ -133,19 +133,23 @@ func DeleteAll(r *http.Request) (err error) {
 	return nil
 }
 
-func GetFlashes(r *http.Request, group string) (flashes []interface{}, err error) {
+func GetFlashes(r *http.Request, group string) (flashes []string, err error) {
 
 	session, err := getSession(r)
 	if err != nil {
 		return nil, err
 	}
 
-	flashes = session.Flashes(group)
+	interfaces := session.Flashes(group)
+
+	for _, v := range interfaces {
+		flashes = append(flashes, v.(string))
+	}
 
 	return flashes, err
 }
 
-func SetFlash(r *http.Request, group string, flash interface{}) (err error) {
+func SetFlash(r *http.Request, group string, flash string) (err error) {
 
 	session, err := getSession(r)
 	if err != nil {
