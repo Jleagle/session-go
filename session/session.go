@@ -133,14 +133,16 @@ func DeleteAll(r *http.Request) (err error) {
 	return nil
 }
 
-func GetFlashes(r *http.Request, group string) (flashes []string, err error) {
+type FlashGroup string
+
+func GetFlashes(r *http.Request, group FlashGroup) (flashes []string, err error) {
 
 	session, err := getSession(r)
 	if err != nil {
 		return nil, err
 	}
 
-	interfaces := session.Flashes(group)
+	interfaces := session.Flashes(string(group))
 
 	for _, v := range interfaces {
 		flashes = append(flashes, v.(string))
@@ -149,14 +151,14 @@ func GetFlashes(r *http.Request, group string) (flashes []string, err error) {
 	return flashes, err
 }
 
-func SetFlash(r *http.Request, group string, flash string) (err error) {
+func SetFlash(r *http.Request, group FlashGroup, flash string) (err error) {
 
 	session, err := getSession(r)
 	if err != nil {
 		return err
 	}
 
-	session.AddFlash(flash, group)
+	session.AddFlash(flash, string(group))
 
 	return nil
 }
